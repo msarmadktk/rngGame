@@ -1,0 +1,104 @@
+/* styles.css */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { overflow: hidden; font-family: 'Titan One', cursive; }
+
+/* Full-screen flex centering for all screens */
+#loading-screen,
+#main-screen,
+#result-screen {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+}
+
+/* Loading */
+#loading-screen { background: black; display: flex; }
+#loading-bar {
+  width: 0; height: 20px;
+  background: white;
+  margin-bottom: 10px;
+  transition: width 0.1s linear;
+}
+#loading-text { font-size: 24px; }
+
+/* Main/Home */
+#main-screen {
+  background: #222;
+  display: flex;
+}
+/* Enhanced Go & Back buttons */
+#go-button,
+#back-button {
+  font-family: 'Titan One', cursive;
+  font-size: 2rem;
+  color: #fff;
+  background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 16px 36px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+/* Hover state */
+#go-button:hover,
+#back-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.4);
+  filter: brightness(1.05);
+}
+
+/* Active (pressed) state */
+#go-button:active,
+#back-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  filter: brightness(0.95);
+}
+
+
+/* Game (click) screen */
+#game-screen {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: none;
+}
+#click-canvas { display: block; }
+
+/* Result screen */
+#result-screen {
+  display: none;
+  text-align: center;
+  flex-direction: column;
+}
+#result-content { position: relative; z-index: 2; }
+#rarity-text { font-size: 4rem; margin-bottom: 20px; text-transform: capitalize; }
+
+/* Overlay flicker */
+#overlay-image-container {
+  position: absolute; top:0; left:0;
+  width:100%; height:100%;
+  pointer-events: none;
+}
+#overlay-image {
+  width:100%; height:100%;
+  opacity: 0.2;
+  animation: flicker 1s infinite;
+}
+
+/* Keyframe animations */
+@keyframes flicker {
+  0%,100% { opacity: 0.2; }
+  50%     { opacity: 0.5; }
+}
+@keyframes hue {
+  from { filter: hue-rotate(0deg); }
+  to   { filter: hue-rotate(360deg); }
+}
