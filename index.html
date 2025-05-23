@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,34 +8,27 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- 1. Loading Screen (shown once on startup) -->
   <div id="loading-screen" style="display: flex;">
     <div id="loading-bar"></div>
     <div id="loading-text">Loading</div>
   </div>
 
-  <!-- 2. Main (“Home”) Screen (hidden until loading completes) -->
   <div id="main-screen" style="display: none;">
+    <h1>Click RNG</h1>
     <button id="go-button">Go</button>
   </div>
 
-  <!-- 3. Click-RNG Screen (hidden until “Go” is clicked) -->
   <div id="game-screen" style="display: none;">
     <canvas id="click-canvas"></canvas>
   </div>
 
-  <!-- 4. Rarity Result Screen (hidden until a click produces a result) -->
   <div id="result-screen" style="display: none;">
-    <div id="overlay-image-container">
-      <img id="overlay-image" src="overlay.png" alt="Overlay">
-    </div>
     <div id="result-content">
       <h1 id="rarity-text"></h1>
-      <button id="back-button">Back to Home</button>
+      <button id="back-button">Retry</button>
     </div>
   </div>
 
-  <!-- Core logic (includes the one‐time loading IIFE) -->
   <script src="script.js"></script>
 </body>
 </html>

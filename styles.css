@@ -1,8 +1,6 @@
-/* styles.css */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { overflow: hidden; font-family: 'Titan One', cursive; }
 
-/* Full-screen flex centering for all screens */
 #loading-screen,
 #main-screen,
 #result-screen {
@@ -15,7 +13,6 @@ body { overflow: hidden; font-family: 'Titan One', cursive; }
   color: white;
 }
 
-/* Loading */
 #loading-screen { background: black; display: flex; }
 #loading-bar {
   width: 0; height: 20px;
@@ -25,18 +22,23 @@ body { overflow: hidden; font-family: 'Titan One', cursive; }
 }
 #loading-text { font-size: 24px; }
 
-/* Main/Home */
 #main-screen {
-  background: #222;
+  background: #fff;
   display: flex;
 }
-/* Enhanced Go & Back buttons */
+
+#main-screen h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
 #go-button,
 #back-button {
   font-family: 'Titan One', cursive;
   font-size: 2rem;
   color: #fff;
-  background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+  background: #4CAF50;
   border: none;
   border-radius: 12px;
   padding: 16px 36px;
@@ -47,7 +49,6 @@ body { overflow: hidden; font-family: 'Titan One', cursive; }
   outline: none;
 }
 
-/* Hover state */
 #go-button:hover,
 #back-button:hover {
   transform: translateY(-3px);
@@ -55,7 +56,6 @@ body { overflow: hidden; font-family: 'Titan One', cursive; }
   filter: brightness(1.05);
 }
 
-/* Active (pressed) state */
 #go-button:active,
 #back-button:active {
   transform: translateY(0);
@@ -63,8 +63,6 @@ body { overflow: hidden; font-family: 'Titan One', cursive; }
   filter: brightness(0.95);
 }
 
-
-/* Game (click) screen */
 #game-screen {
   position: fixed; top: 0; left: 0;
   width: 100%; height: 100%;
@@ -72,33 +70,21 @@ body { overflow: hidden; font-family: 'Titan One', cursive; }
 }
 #click-canvas { display: block; }
 
-/* Result screen */
 #result-screen {
   display: none;
   text-align: center;
   flex-direction: column;
 }
-#result-content { position: relative; z-index: 2; }
+#result-content { position: relative; }
 #rarity-text { font-size: 4rem; margin-bottom: 20px; text-transform: capitalize; }
 
-/* Overlay flicker */
-#overlay-image-container {
-  position: absolute; top:0; left:0;
-  width:100%; height:100%;
-  pointer-events: none;
-}
-#overlay-image {
-  width:100%; height:100%;
-  opacity: 0.2;
-  animation: flicker 1s infinite;
-}
-
-/* Keyframe animations */
-@keyframes flicker {
-  0%,100% { opacity: 0.2; }
-  50%     { opacity: 0.5; }
-}
-@keyframes hue {
-  from { filter: hue-rotate(0deg); }
-  to   { filter: hue-rotate(360deg); }
+@keyframes colorCycle {
+  0% { background-color: red; }
+  14.28% { background-color: orange; }
+  28.57% { background-color: yellow; }
+  42.86% { background-color: green; }
+  57.14% { background-color: blue; }
+  71.43% { background-color: indigo; }
+  85.71% { background-color: violet; }
+  100% { background-color: red; }
 }

@@ -1,6 +1,5 @@
-// script.js
 window.addEventListener('DOMContentLoaded', () => {
-  // --- Element refs ---
+  
   const loadingScreen = document.getElementById('loading-screen');
   const loadingBar    = document.getElementById('loading-bar');
   const mainScreen    = document.getElementById('main-screen');
@@ -10,9 +9,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const resultScreen  = document.getElementById('result-screen');
   const rarityText    = document.getElementById('rarity-text');
   const backButton    = document.getElementById('back-button');
-  const overlayImg    = document.getElementById('overlay-image');
 
-  // --- Audio setup ---
+  
   const audios = {
     common:    new Audio('common.mp3'),
     uncommon:  new Audio('uncommon.mp3'),
@@ -23,9 +21,9 @@ window.addEventListener('DOMContentLoaded', () => {
     background:new Audio('backround.mp3')
   };
   audios.background.loop = true;
-  audios.background.volume = 0.2;
+  audios.background.volume = 0.1;
 
-  // --- RNG‐zone config & dev‐mode setup ---
+  
   const raritiesConfig = [
     { name:'unknown',  count: 5,  minR:30, maxR:60, devColor:'rgba(255,0,0,0.3)' },
     { name:'godly',    count: 8,  minR:30, maxR:60, devColor:'rgba(255,192,203,0.3)' },
@@ -36,10 +34,10 @@ window.addEventListener('DOMContentLoaded', () => {
   let zones = [];
   let devMode = false;
 
-  // Canvas context
+  
   const ctx = canvas.getContext('2d');
 
-  // --- Utility functions ---
+  
   const rand = (min,max) => min + Math.random()*(max-min);
 
   function initZones() {
@@ -71,7 +69,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function detectRarity(x,y) {
-    // check rarer first
+    
     for (let cfg of raritiesConfig) {
       for (let z of zones.filter(z=>z.name===cfg.name)) {
         const dx = x - z.x, dy = y - z.y;
@@ -84,7 +82,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function showResult(rarity) {
-    // set gradient
+    
     let grad;
     switch(rarity) {
       case 'common':
@@ -98,35 +96,33 @@ window.addEventListener('DOMContentLoaded', () => {
       case 'godly':
         grad = 'linear-gradient(to right, #E91E63,#F48FB1)'; break;
       case 'unknown':
-        grad = 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)';
-        resultScreen.style.animation = 'hue 5s infinite linear';
+        resultScreen.style.animation = 'colorCycle 2s infinite linear';
         break;
     }
-    if (rarity !== 'unknown') resultScreen.style.animation = '';
-    resultScreen.style.background = grad;
+    if (rarity !== 'unknown') {
+      resultScreen.style.animation = '';
+      resultScreen.style.background = grad;
+    } else {
+      resultScreen.style.background = '';
+    }
 
-    // update text & overlay
+    
     rarityText.textContent = rarity === 'unknown' ? '???' : rarity;
-    overlayImg.src = 'overlay.png';
 
-    // play sounds
-    audios.common.pause(); audios.uncommon.pause();
-    audios.rare.pause(); audios.legendary.pause();
-    audios.godly.pause(); audios.unknown.pause();
-    Object.values(audios).forEach(a=>a.currentTime = 0);
+    
+    Object.values(audios).forEach(a => { a.pause(); a.currentTime = 0; });
 
     audios[rarity].play();
     if (['rare','legendary','godly','unknown'].includes(rarity)) {
       audios.background.play();
     }
 
-    // show
+    
     gameScreen.style.display   = 'none';
     resultScreen.style.display = 'flex';
   }
 
-  // --- Event handlers ---
-  // loading animation → main
+  
   (function startLoading(){
     loadingBar.style.width = '0%';
     loadingScreen.style.display = 'flex';
@@ -144,7 +140,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 20);
   })();
 
-  // “Go” → init zones & show game
+  
   goButton.addEventListener('click', () => {
     mainScreen.style.display = 'none';
     gameScreen.style.display = 'block';
@@ -152,7 +148,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (devMode) drawDev();
   });
 
-  // click on canvas → RNG
+  
   canvas.addEventListener('click', e => {
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -161,16 +157,17 @@ window.addEventListener('DOMContentLoaded', () => {
     showResult(rarity);
   });
 
-  // back to home
+  
   backButton.addEventListener('click', () => {
     resultScreen.style.display = 'none';
     resultScreen.style.animation = '';
-    audios.background.pause();
-    gameScreen.style.display = 'none';
-    mainScreen.style.display = 'flex';
+    Object.values(audios).forEach(a => { a.pause(); a.currentTime = 0; });
+    initZones();
+    if (devMode) drawDev();
+    gameScreen.style.display = 'block';
   });
 
-  // dev‐mode toggle: key sequence “d e v m”
+  
   let keyBuf = '';
   window.addEventListener('keydown', e => {
     keyBuf += e.key.toLowerCase();
